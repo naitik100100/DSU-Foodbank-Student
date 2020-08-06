@@ -1,0 +1,85 @@
+<!-- @author Samkit Shah [samkit@dal.ca] -->
+<section class="container-fluid signup-container">
+      <div class="flex-column justify-content-center mt-4 mb-4">
+        <mat-card class="form-center col-md-4 mat-elevation-z16">
+          <mat-card-header class="p-4">
+            <mat-card-title>{{ 'Signup' | uppercase }}</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content class="p-4 pt-4 pb-4">
+            <form class="app-form" autocomplete="off">
+              <mat-form-field class="w-100">
+                <mat-label>Dalhousie Banner ID</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Enter Banner ID"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>First Name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Enter First Name"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>Last Name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Enter Last Name"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>Email Address</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  placeholder="Enter email address"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  placeholder="Create a password"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>Confirm Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  placeholder="Enter a confirm password"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+  
+              <div class="w-100 d-flex pt-4">
+                <button class="app-primary-btn w-100 m-2" type="submit" mat-button>
+                  SIGNUP
+                </button>
+                <button routerLink="/login" class="app-secondary-btn w-100 m-2" type="button" mat-button>
+                  LOGIN
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  </section>
+  

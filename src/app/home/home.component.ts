@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
-
-import { QuoteService } from './quote.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ItemModel } from '@app/@shared/model/Item';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ItemsService } from '@app/@shared/services/items.service';
+import { CartService } from '@app/@shared/services/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -10,16 +13,46 @@ import { QuoteService } from './quote.service';
 })
 export class HomeComponent implements OnInit {
 
-  quote: string | undefined;
-  isLoading = false;
+  searchString = ''
+  displayedColumns: string[] = ['id', 'name', 'addToCart'];
+  dataSource: MatTableDataSource<ItemModel>;
 
-  constructor(private quoteService: QuoteService) { }
 
-  ngOnInit() {
-    this.isLoading = true;
-    this.quoteService.getRandomQuote({ category: 'dev' })
-      .pipe(finalize(() => { this.isLoading = false; }))
-      .subscribe((quote: string) => { this.quote = quote; });
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  constructor(
+    public itemsService: ItemsService,
+    public cartService: CartService
+  ) { }
+
+  ngOnInit(): void {
+    this.initializeDataGrid()
+  }
+
+  initializeDataGrid()
+  {
+    this.dataSource = new MatTableDataSource<ItemModel>(this.itemsService.getAllItems());
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  addToCart(item: ItemModel)
+  {
+    this.cartService.addItem(item)
+  }
+
+  search()
+  {
+    if(this.searchString=='')
+    {
+      this.initializeDataGrid()
+    }
+    else
+    {
+      let searchedItems = this.itemsService.getAllItems().filter(item=> item.name.toLowerCase().indexOf(this.searchString.toLowerCase())!=-1)
+
+      this.dataSource.data = searchedItems
+    }
   }
 
 }
