@@ -36,8 +36,21 @@ export class OrdersComponent implements OnInit {
 
   getOrders()
   {
-    this.orders = this.ordersService.getAllOrders()
-    this.initializeDataGrid()
+    // this.orders = this.ordersService.getAllOrders()
+    // this.initializeDataGrid()
+
+    this.ordersService.getAllOrders().subscribe((data:any)=>{
+      if(data.success)
+      {
+        data.result.forEach((order:any)=>{
+          this.ordersService.getOrder(order.orderid).subscribe((data:any)=>
+          {
+            this.orders.push(data.Item)
+            this.initializeDataGrid()
+          })
+        })
+      }
+    })
   }
 
   initializeDataGrid()

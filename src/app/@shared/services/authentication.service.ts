@@ -36,6 +36,8 @@ export class AuthenticationService
                         lastname: data.result.lastname,
                         emailId: data.result.emailid
                     }
+
+                    localStorage.setItem('bannerId',bannerId)
                     this.router.navigate(['/home'])
                 }
             },(error:any)=>{

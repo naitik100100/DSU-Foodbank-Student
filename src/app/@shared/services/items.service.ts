@@ -20,9 +20,9 @@ export class ItemsService
         return this.httpClient.get(`${this.getUrl()}items`)
     }
 
-    getItem(id:number): ItemModel
+    getItem(id:number)
     {
-        return Items.filter(item=> item.id==id)[0]
+        return this.httpClient.get(`${this.getUrl()}items/${id}`)
     }
 
     getUrl()

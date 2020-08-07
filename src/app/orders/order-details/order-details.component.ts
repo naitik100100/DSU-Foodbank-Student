@@ -49,24 +49,23 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   fetchOrder()
   {
     console.log('Fetching Order Details of: '+this.id)
-    this.order = this.ordersService.getOrder(this.id)
+    this.ordersService.getOrder(this.id).subscribe((data:any)=>{
+      this.order = data.Item
+      this.fetchOrderItems()
+    })
 
-    this.fetchOrderItems()
   }
 
   fetchOrderItems()
   {
     this.order.details.forEach(orderDetail=>{
-      console.log('Fetching Item: '+orderDetail.itemId)
-      let item=this.itemsService.getItem(orderDetail.itemId)
-
-      if(item)
-      {
-        this.orderItems.push(item)
-      }
+      this.itemsService.getItem(orderDetail.itemId).subscribe((data:any)=>{
+        console.log(data)
+        this.orderItems.push(data.Item)
+        this.initializeDataGrid()
+      })
     })
 
-    this.initializeDataGrid()
   }
 
   initializeDataGrid()
