@@ -1,0 +1,22 @@
+<mat-toolbar class="active mat-elevation-z8">
+  <div class="app-logo" [routerLink]="['/']">
+    Food Bank
+  </div>
+  <div *ngIf="authService.isUserLoggedIn">
+      <button mat-button [routerLink]="['/home']">
+        <span>Home</span>
+      </button>
+      <button mat-button [routerLink]="['/orders']">
+        <span>Orders</span>
+      </button>
+  </div>
+
+  <div class="right" *ngIf="authService.isUserLoggedIn">
+    <button mat-button [routerLink]="['/cart']">
+      <span>Cart</span>
+    </button>
+    <button mat-button (click)="logout()">
+      <span>Logout</span>
+    </button>
+  </div>
+</mat-toolbar>

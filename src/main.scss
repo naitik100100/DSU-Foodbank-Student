@@ -25,3 +25,18 @@
 
 // Theme customization
 @import "theme/theme";
+
+.app-primary-btn
+{
+  background-color: mediumblue;
+  color: white;
+}
+.app-secondary-btn
+{
+  background-color: gainsboro;
+}
+
+.form-center
+{
+    margin: auto;
+}

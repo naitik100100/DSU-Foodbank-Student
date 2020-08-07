@@ -11,6 +11,9 @@ export const environment = {
   hmr: false,
   version: env.npm_package_version,
   serverUrl: 'https://api.chucknorris.io',
+  supplierUrl: 'https://tcxi8qf38d.execute-api.us-east-1.amazonaws.com/dev/api/',
+  staffUrl:'https://ststoxv3xd.execute-api.us-east-1.amazonaws.com/dev/api/',
+  studentUrl: 'http://localhost/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US']
 };

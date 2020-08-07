@@ -1,0 +1,32 @@
+<div fxFlexFill.lt-lg class="d-flex flex-column">
+    <mat-card class="form-center col-md-4 justify-content-center login-card mt-4 mb-4 mat-elevation-z16">
+      <mat-card-header class="p-4">
+        <mat-card-title>{{ 'Login' | uppercase }}</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content class="p-4 pt-4 pb-4">
+        <form class="col-md-12 app-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="w-100">
+            <mat-label>Dalhousie Banner ID</mat-label>
+            <input matInput type="text" placeholder="Enter Banner ID" [formControl]="bannerId" autocomplete="off" />
+            <mat-error *ngIf="bannerId.hasError('required') && !bannerId.hasError('maxlength')"
+              >BannerId is required.</mat-error
+            >
+            <mat-error *ngIf="!bannerId.hasError('required') && bannerId.hasError('maxlength')"
+              >BannerId should not be more than
+              {{ bannerId?.errors?.maxlength?.requiredLength }} characters.</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" [formControl]="password" placeholder="Enter Password" />
+            <mat-error *ngIf="password.hasError('required')">Password is required</mat-error>
+          </mat-form-field>
+            <button class="app-primary-btn"  type="submit" mat-button>
+              LOGIN
+            </button>
+          <div class="pt-4">Don't have an account? <a class="signup-link" [routerLink]="['/signup']">Sign up</a></div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>

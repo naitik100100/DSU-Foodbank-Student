@@ -1,0 +1,44 @@
+
+
+.app {
+  &-logo {
+    cursor: pointer;
+    margin-right: 15px;
+  }
+  &-icon {
+    font-size: 2rem;
+  }
+}
+
+.right
+{
+  float: right;
+  clear: both;
+  position: absolute;
+  right: 0;
+}
+
+// Mobile Menu
+.mat-sidenav-container.opened {
+  position: fixed;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+  visibility: hidden;
+}
+.mat-sidenav-container.mat-drawer-container-has-open.opened {
+  visibility: visible;
+}
+.mat-sidenav {
+  min-width: 250px;
+  width: 100%;
+  max-width: 100%;
+}
+.mat-list-item {
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
