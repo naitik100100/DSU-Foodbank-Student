@@ -17,14 +17,24 @@ export class CartService
 
     public addItem(item: ItemModel)
     {
-        console.log(this.itemsInCart.indexOf(item))
-        if(this.itemsInCart.indexOf(item)==-1)
+        const cartItem: ItemModel = {
+            id: item.id,
+            name: item.name,
+            quantity: 1
+        }
+        console.log(this.itemsInCart.indexOf(cartItem))
+        if(this.itemsInCart.indexOf(cartItem)==-1)
         {
-            this.itemsInCart.push(item)
+            this.itemsInCart.push(cartItem)
         }
         else
         {
             console.log('already added')
         }
+    }
+
+    public getItems()
+    {
+        return this.itemsInCart;
     }
 }

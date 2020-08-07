@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
+import { CartComponent } from './cart/cart.component';
+import { OrdersModule } from './orders/orders.module';
 
 @NgModule({
   imports: [
@@ -30,6 +32,7 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     LoginComponent,
     SignupComponent,
+    CartComponent,
     HomeComponent
   ],
   providers: [
