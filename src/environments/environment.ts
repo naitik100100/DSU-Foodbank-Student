@@ -15,6 +15,9 @@ export const environment = {
   hmr: true,
   version: env.npm_package_version + '-dev',
   serverUrl: '/api',
+  supplierUrl: 'https://tcxi8qf38d.execute-api.us-east-1.amazonaws.com/dev/api/',
+  staffUrl:'https://ststoxv3xd.execute-api.us-east-1.amazonaws.com/dev/api/',
+  studentUrl: 'http://localhost/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US']
 };

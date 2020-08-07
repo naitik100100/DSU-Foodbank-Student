@@ -1,5 +1,5 @@
 export interface ItemModel{
     id: number,
-    name: string,
+    itemname: string,
     quantity: number
 }

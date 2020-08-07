@@ -7,16 +7,23 @@
           </mat-card-header>
           <mat-divider></mat-divider>
           <mat-card-content class="p-4 pt-4 pb-4">
-            <form class="app-form" autocomplete="off">
+            <form class="col-lg-9 col-md-12 app-form" autocomplete="off" [formGroup]="signupForm" (ngSubmit)="signup()">
               <mat-form-field class="w-100">
                 <mat-label>Dalhousie Banner ID</mat-label>
                 <input
                   matInput
                   type="text"
                   placeholder="Enter Banner ID"
+                  [formControl]="bannerId"
                   autocomplete="off"
                   required
                 />
+                <mat-error *ngIf="bannerId.hasError('required') && !bannerId.hasError('pattern')"
+                  >BannerId is required.</mat-error
+                >
+                <mat-error *ngIf="!bannerId.hasError('required') && bannerId.hasError('pattern')"
+                  >Enter valid Banner Id. eg.B00123456</mat-error
+                >
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>First Name</mat-label>
@@ -24,9 +31,11 @@
                   matInput
                   type="text"
                   placeholder="Enter First Name"
+                  [formControl]="firstName"
                   autocomplete="off"
                   required
                 />
+                <mat-error *ngIf="firstName.hasError('required')">Please enter your firstname.</mat-error>
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Last Name</mat-label>
@@ -34,9 +43,11 @@
                   matInput
                   type="text"
                   placeholder="Enter Last Name"
+                  [formControl]="lastName"
                   autocomplete="off"
                   required
                 />
+                <mat-error *ngIf="lastName.hasError('required')">Please enter your lastname.</mat-error>
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Email Address</mat-label>
@@ -44,9 +55,16 @@
                   matInput
                   type="email"
                   placeholder="Enter email address"
+                  [formControl]="email"
                   autocomplete="off"
                   required
                 />
+                <mat-error *ngIf="email.hasError('required') && !email.hasError('email')"
+                  >Please enter your email address.</mat-error
+                >
+                <mat-error *ngIf="!email.hasError('required') && email.hasError('email')"
+                  >Please enter a valid email address.</mat-error
+                >
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Password</mat-label>
@@ -54,9 +72,17 @@
                   matInput
                   type="password"
                   placeholder="Create a password"
+                  [formControl]="password"
                   autocomplete="off"
                   required
                 />
+                <mat-error *ngIf="password.hasError('required') && !password.hasError('pattern')"
+                  >Please enter password.</mat-error
+                >
+                <mat-error *ngIf="!password.hasError('required') && password.hasError('pattern')"
+                  >Password should contain one uppercase, one lowercase, one number, one symbol, and should be of 8 to 12
+                  characters long.</mat-error
+                >
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Confirm Password</mat-label>
@@ -64,10 +90,21 @@
                   matInput
                   type="password"
                   placeholder="Enter a confirm password"
+                  [formControl]="confirm_password"
                   autocomplete="off"
                   required
                 />
+                <mat-error
+                  *ngIf="confirm_password.hasError('required') && !confirm_password.hasError('confirmedValidator')"
+                  >Please enter password.</mat-error
+                >
+                <mat-error
+                  *ngIf="!confirm_password.hasError('required') && confirm_password.hasError('confirmedValidator')"
+                >
+                  Password and Confirm Password must be same.
+                </mat-error>
               </mat-form-field>
+  
   
               <div class="w-100 d-flex pt-4">
                 <button class="app-primary-btn w-100 m-2" type="submit" mat-button>

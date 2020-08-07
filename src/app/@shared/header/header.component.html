@@ -2,7 +2,7 @@
   <div class="app-logo" [routerLink]="['/']">
     Food Bank
   </div>
-  <div>
+  <div *ngIf="authService.isUserLoggedIn">
       <button mat-button [routerLink]="['/home']">
         <span>Home</span>
       </button>
@@ -11,11 +11,11 @@
       </button>
   </div>
 
-  <div class="right">
+  <div class="right" *ngIf="authService.isUserLoggedIn">
     <button mat-button [routerLink]="['/cart']">
       <span>Cart</span>
     </button>
-    <button mat-button>
+    <button mat-button (click)="logout()">
       <span>Logout</span>
     </button>
   </div>

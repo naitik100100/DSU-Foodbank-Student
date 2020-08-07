@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
+import { MatDialogWrapperComponent } from './mat-dialog-wrapper/mat-dialog-wrapper.component';
 
 @NgModule({
   imports: [
@@ -20,11 +21,13 @@ import { FooterComponent } from './footer/footer.component';
     HeaderComponent,
     FooterComponent,
     LoaderComponent,
+    MatDialogWrapperComponent
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
-    LoaderComponent
+    LoaderComponent,
+    MatDialogWrapperComponent
   ]
 })
 export class SharedModule { }

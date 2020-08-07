@@ -3,6 +3,7 @@ import { CartService } from '@app/@shared/services/cart.service';
 import { ItemModel } from '@app/@shared/model/Item';
 import { DataSource } from '@angular/cdk/table';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthenticationService } from '@app/@shared/services/authentication.service';
 
 @Component({
   selector: 'app-cart',
@@ -12,14 +13,16 @@ import { MatTableDataSource } from '@angular/material/table';
 export class CartComponent implements OnInit {
 
   constructor(
-    public cartService: CartService
+    public cartService: CartService,
+    public authService: AuthenticationService
   ) { }
 
   cartItems: ItemModel[] = []
-  displayedColumns: string[] = [ 'name', 'quantity'];
+  displayedColumns: string[] = [ 'name', 'quantity','delete'];
   dataSource: MatTableDataSource<ItemModel>;
 
   ngOnInit(): void {
+    this.authService.checkLogin();
     this.getCartItems()
   }
 
@@ -33,7 +36,16 @@ export class CartComponent implements OnInit {
 
   changeQuantity(change: number, item: ItemModel)
   {
-    item.quantity = item.quantity+change
+    if(item.quantity>1 || change!=-1)
+    {
+      item.quantity = item.quantity+change
+    }
+  }
+
+  delete(item:ItemModel)
+  {
+    this.cartService.delete(item)
+    this.getCartItems()
   }
 
 }

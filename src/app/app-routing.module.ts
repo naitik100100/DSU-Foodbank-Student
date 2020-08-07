@@ -7,6 +7,7 @@ import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
   // Fallback when no prior route is matched
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: 'login', component: LoginComponent, data: {title: 'Login'}},
   {path: 'signup', component: SignupComponent, data: {title: 'Sign Up'}},
   {path: 'cart', component: CartComponent, data: {title: 'Cart'}},
@@ -15,6 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
+
 ];
 
 @NgModule({

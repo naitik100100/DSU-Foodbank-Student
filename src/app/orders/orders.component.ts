@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/@shared/services/authentication.service';
 
 @Component({
   selector: 'app-orders',
@@ -24,10 +25,12 @@ export class OrdersComponent implements OnInit {
   constructor(
     public itemsService: ItemsService,
     public ordersService: OrdersService,
+    public authService: AuthenticationService,
     public router: Router
   ) { }
 
   ngOnInit(): void {
+    this.authService.checkLogin();
     this.getOrders()
   }
 

@@ -6,6 +6,7 @@ import { Route } from '@angular/compiler/src/core';
 import { ItemModel } from '@app/@shared/model/Item';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderModel } from '@app/@shared/model/Order';
+import { AuthenticationService } from '@app/@shared/services/authentication.service';
 
 @Component({
   selector: 'app-order-details',
@@ -25,10 +26,12 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   constructor(
     public itemsService: ItemsService,
     public ordersService: OrdersService,
+    public authService: AuthenticationService,
     public route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.authService.checkLogin();
     this.route.params.subscribe(params=>
       {
           this.id = parseInt(params.id)
