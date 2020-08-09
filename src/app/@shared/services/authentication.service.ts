@@ -26,7 +26,6 @@ export class AuthenticationService
     {
         return this.httpClient.post(`${this.getUrl()}user`,{bannerid: bannerId, password: password}).subscribe((data:any)=>
             {
-                console.log(data);
                 if(data.success)
                 {
                     this.isUserLoggedIn=true;
@@ -58,10 +57,8 @@ export class AuthenticationService
             emailid:formControls.email.value
         }
 
-        console.log(User);
 
         this.httpClient.post(`${this.getUrl()}user/add`,User).subscribe((data:any)=>{
-            console.log(data)
             if(data.success)
             {
                 this.matDialog.open(MatDialogWrapperComponent,{data:{header: 'Successful',content:'Welcome To DSU Foodbank'}})
@@ -80,10 +77,8 @@ export class AuthenticationService
     public checkLogin()
     {
         this.isUserLoggedIn = true
-        console.log("Checking login: "+this.isUserLoggedIn);
         if(!this.isUserLoggedIn)
         {
-            console.log("Redirecting")
             this.router.navigate(['/login'])
         }
     }

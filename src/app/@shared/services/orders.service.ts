@@ -68,5 +68,14 @@ export class OrdersService {
     return this.httpClient.post(`${this.getSupplierUrl()}revertupdate`, {items});
   }
 
+  getLatestOrder() {
+    const bannerId = localStorage.getItem('bannerId');
+    return this.httpClient.get(`${this.getStudentUrl()}latestorder/${bannerId}`);
+  }
+
+  isOrderExist(orderId: number) {
+    return this.httpClient.get(`${this.getStaffUrl()}orderexist/${orderId}`);
+  }
+
   checkOrderIsPlaced() {}
 }

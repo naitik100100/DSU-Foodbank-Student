@@ -36,9 +36,7 @@ export class CartComponent implements OnInit {
   }
 
   getCartItems() {
-    console.log("Getting cart Items");
     this.cartItems = this.cartService.getItems();
-    console.log(this.cartItems);
     this.dataSource = new MatTableDataSource<ItemModel>(this.cartItems);
   }
 
@@ -60,97 +58,25 @@ export class CartComponent implements OnInit {
     // Checking whether enough quantities are available or not ??
     this.orderService.checkItemsQuantity({ items: this.cartItems }).subscribe((res: any) => {
       if (res.success) {
-        // update supplier modify quantities
-
-        // get new order id
-        this.orderService.getNewOrder().subscribe((res1: any) => {
-          newOrderId = res1.Count + 1;
-          const currentDate = this.formateDate(new Date());
-          const pickupDate = new Date();
-          pickupDate.setDate(pickupDate.getDate() + 3);
-          const formattedPickupDate = this.formateDate(pickupDate);
-
-          const body = {
-            id: newOrderId,
-            bannerId: localStorage.getItem("bannerId"),
-            orderedDate: currentDate,
-            pickUpDate: formattedPickupDate,
-            deliveredDate: "",
-            orderstatus: "placed",
-            details: this.cartItems,
-          };
-          // update staff api endpoint for new order
-          this.orderService.updateStaff(body).subscribe((res2: any) => {
-            if (JSON.stringify(res2) === "{}") {
-              // modify item quantities
-              this.orderService.updateSupplierQuantities(this.cartItems).subscribe((res3: any) => {
-                if (res3.success) {
-                  this.orderService.placeOrder(newOrderId).subscribe((res4: any) => {
-                    if (res4.success) {
-                      this.matDialog.open(MatDialogWrapperComponent, {
-                        data: {
-                          header: `Success!`,
-                          content: `${res4.message}. Order ID: ${res4.order.id}`,
-                        },
-                      });
-                      this.cartItems = [];
-                      this.dataSource.data = this.cartItems;
-                      this.loading = false;
-                    } else {
-                      // error updating student order
-                      this.orderService.revertStaffOrder(newOrderId).subscribe((res5: any) => {
-                        if (JSON.stringify(res5)) {
-                          this.orderService.revertQuantities(this.cartItems).subscribe((res6: any) => {
-                            if (res6.success) {
-                              this.loading = false;
-                              this.matDialog.open(MatDialogWrapperComponent, {
-                                data: {
-                                  header: `Error - Can't place the order!`,
-                                  content: `Transaction rollbacked due to the internal error in Staff API endpoint`,
-                                },
-                              });
-                            } else {
-                              this.loading = false;
-                              // rollback failed - inconsistent state
-                            }
-                          });
-                        } else {
-                          this.loading = false;
-                          // rollback failed - inconsistent state
-                        }
-                      });
-                    }
-                  });
-                } else {
-                  // error modifying quantities
-                  this.orderService.revertStaffOrder(newOrderId).subscribe((res5: any) => {
-                    if (JSON.stringify(res5)) {
-                      this.loading = false;
-                      this.matDialog.open(MatDialogWrapperComponent, {
-                        data: {
-                          header: `Error - Can't place the order!`,
-                          content: `Transaction rollbacked due to the internal error in Supplier API endpoint`,
-                        },
-                      });
-                    } else {
-                      this.loading = false;
-                      // rollback failed - inconsistent state
-                    }
-                  });
-                }
-              });
-            } else {
-              // Error unable to place an order
-              // Staff order can't be placed
-              this.loading = false;
-              this.matDialog.open(MatDialogWrapperComponent, {
-                data: {
-                  header: `Error - Can't place the order!`,
-                  content: `Unable to add order using staff API endpoint`,
-                },
-              });
-            }
-          });
+        this.orderService.getLatestOrder().subscribe((res10: any) => {
+          if (res10.success === false) {
+            this.prepareStateSupplier(newOrderId);
+          } else {
+            this.orderService.isOrderExist(res10.result.orderid).subscribe((res11: any) => {
+              if (res11.orderPlaced === false) {
+                this.prepareStateSupplier(newOrderId);
+              } else {
+                // order already placed
+                this.loading = false;
+                this.matDialog.open(MatDialogWrapperComponent, {
+                  data: {
+                    header: `Error - Can't place the order!`,
+                    content: `You have already placed an order during the week!`,
+                  },
+                });
+              }
+            });
+          }
         });
       } else {
         // show message with list of items that are not have enough qunatities
@@ -167,5 +93,99 @@ export class CartComponent implements OnInit {
 
   formateDate(date: Date) {
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  }
+
+  prepareStateSupplier(newOrderId: number) {
+    // update supplier modify quantities
+    // get new order id
+    this.orderService.getNewOrder().subscribe((res1: any) => {
+      newOrderId = res1.Count + 1;
+      const currentDate = this.formateDate(new Date());
+      const pickupDate = new Date();
+      pickupDate.setDate(pickupDate.getDate() + 3);
+      const formattedPickupDate = this.formateDate(pickupDate);
+
+      const body = {
+        id: newOrderId,
+        bannerId: localStorage.getItem("bannerId"),
+        orderedDate: currentDate,
+        pickUpDate: formattedPickupDate,
+        deliveredDate: "",
+        status: "placed",
+        details: this.cartItems,
+      };
+      // update staff api endpoint for new order
+      this.orderService.updateStaff(body).subscribe((res2: any) => {
+        if (JSON.stringify(res2) === "{}") {
+          // modify item quantities
+          this.orderService.updateSupplierQuantities(this.cartItems).subscribe((res3: any) => {
+            if (res3.success) {
+              this.orderService.placeOrder(newOrderId).subscribe((res4: any) => {
+                if (res4.success) {
+                  this.matDialog.open(MatDialogWrapperComponent, {
+                    data: {
+                      header: `Success!`,
+                      content: `${res4.message}. Order ID: ${res4.order.id}`,
+                    },
+                  });
+                  this.cartItems = [];
+                  this.dataSource.data = this.cartItems;
+                  this.loading = false;
+                } else {
+                  // error updating student order
+                  this.orderService.revertStaffOrder(newOrderId).subscribe((res5: any) => {
+                    if (JSON.stringify(res5)) {
+                      this.orderService.revertQuantities(this.cartItems).subscribe((res6: any) => {
+                        if (res6.success) {
+                          this.loading = false;
+                          this.matDialog.open(MatDialogWrapperComponent, {
+                            data: {
+                              header: `Error - Can't place the order!`,
+                              content: `Transaction rollbacked due to the internal error in Staff API endpoint`,
+                            },
+                          });
+                        } else {
+                          this.loading = false;
+                          // rollback failed - inconsistent state
+                        }
+                      });
+                    } else {
+                      this.loading = false;
+                      // rollback failed - inconsistent state
+                    }
+                  });
+                }
+              });
+            } else {
+              // error modifying quantities
+              this.orderService.revertStaffOrder(newOrderId).subscribe((res5: any) => {
+                if (JSON.stringify(res5)) {
+                  this.loading = false;
+                  this.matDialog.open(MatDialogWrapperComponent, {
+                    data: {
+                      header: `Error - Can't place the order!`,
+                      content: `Transaction rollbacked due to the internal error in Supplier API endpoint`,
+                    },
+                  });
+                } else {
+                  this.loading = false;
+                  // rollback failed - inconsistent state
+                }
+              });
+            }
+          });
+        } else {
+          // Error unable to place an order
+          // Staff order can't be placed
+          this.loading = false;
+          this.matDialog.open(MatDialogWrapperComponent, {
+            data: {
+              header: `Error - Can't place the order!`,
+              content: `Unable to add order using staff API endpoint`,
+            },
+          });
+        }
+      });
+    });
   }
 }

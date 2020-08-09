@@ -37,7 +37,6 @@ export class CartService
         }
         else
         {
-            console.log('already added')
 
             this.matDialog.open(MatDialogWrapperComponent,{data:{
                 header: 'Error',

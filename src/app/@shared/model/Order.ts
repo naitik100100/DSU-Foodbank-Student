@@ -3,7 +3,7 @@ export interface OrderModel{
     orderedDate: string,
     pickUpDate: string,
     deliveredDate?:string,
-    orderstatus: string,
+    status: string,
     details: OrderDetailModel[]
 }
 

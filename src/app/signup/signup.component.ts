@@ -28,10 +28,8 @@ export class SignupComponent implements OnInit {
   ngOnDestroy() {}
 
   signup() {
-    console.log(this.signupForm.valid)
     if(this.signupForm.valid)
     {
-      console.log("Creating User")
       this.authService.createUser(this.signupForm.controls);
     }
   }

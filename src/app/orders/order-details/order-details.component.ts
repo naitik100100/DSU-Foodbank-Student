@@ -37,7 +37,6 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
           this.id = parseInt(params.id)
           if(!this.id)
           {
-            console.log('Invalid Order Id')
           }
           else
           {
@@ -48,9 +47,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
   fetchOrder()
   {
-    console.log('Fetching Order Details of: '+this.id)
     this.ordersService.getOrder(this.id).subscribe((data:any)=>{
-      console.log(data);
       this.order = data.Item;
       this.orderItems = data.Item.details;
       this.initializeDataGrid();
