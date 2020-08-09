@@ -26,7 +26,7 @@ const Sequelize = require("sequelize");
 const { request } = require("express");
 const { json } = require("body-parser");
 const sequelize = new Sequelize(
-  "mysql://adminXYZ:adminXYZ@mysql-db-cloud-project.cr1ibpx939ft.us-east-1.rds.amazonaws.com:3306/StudentInformation"
+  "mysql://adminXYZ:adminXYZ@mysql-db-cloud-project.cceg2u4sxxht.us-east-1.rds.amazonaws.com:3306/StudentInformation"
 );
 
 /**
