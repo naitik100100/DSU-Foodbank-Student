@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication.service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
+import { ItemModel } from '../model/Item';
 
 @Injectable({providedIn: "root"})
 export class OrdersService
@@ -34,5 +35,15 @@ export class OrdersService
     getStaffUrl()
     {
         return environment.staffUrl
+    }
+
+    placeOrder(items: ItemModel[]):Observable<any>
+    {
+        let body = {
+            bannerid: localStorage.getItem('bannerId'),
+            items: items
+        }
+
+        return this.httpClient.post(`${this.getStudentUrl()}orders`,body)
     }
 }

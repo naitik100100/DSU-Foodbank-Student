@@ -4,6 +4,10 @@ import { ItemModel } from '@app/@shared/model/Item';
 import { DataSource } from '@angular/cdk/table';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthenticationService } from '@app/@shared/services/authentication.service';
+import { OrdersService } from '@app/@shared/services/orders.service';
+import { ItemsService } from '@app/@shared/services/items.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@app/@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +18,10 @@ export class CartComponent implements OnInit {
 
   constructor(
     public cartService: CartService,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    public orderService: OrdersService,
+    public itemService: ItemsService,
+    public matDialog: MatDialog
   ) { }
 
   cartItems: ItemModel[] = []
@@ -46,6 +53,43 @@ export class CartComponent implements OnInit {
   {
     this.cartService.delete(item)
     this.getCartItems()
+  }
+
+  placeOrder()
+  {
+    let count = 0;
+    let status = true;
+    this.cartItems.forEach((item:ItemModel)=>
+    {
+      this.itemService.getItem(item.id).subscribe((data:any)=>{
+        let i: ItemModel = data.Item;
+
+        if(i.quantity>=item.quantity && status==true)
+        {
+          count++;
+          if(count==this.cartItems.length)
+          {
+            // this.orderService.placeOrder(this.cartItems).subscribe((data:any)=>{
+
+            // },(error:any)=>{
+
+            // })
+            this.matDialog.open(MatDialogWrapperComponent, {data:{
+              header: 'Success',
+              content: 'Order Placed Successfully'
+            }})
+          }
+        }
+        else if(status==true)
+        {
+          status = false
+          this.matDialog.open(MatDialogWrapperComponent, {data:{
+            header: 'Error',
+            content: `Not Enough Quantity Available for <strong>${item.itemname}</strong>`
+          }})
+        }
+      })
+    })
   }
 
 }

@@ -17,7 +17,7 @@ import { MatDialogWrapperComponent } from '@app/@shared/mat-dialog-wrapper/mat-d
 export class HomeComponent implements OnInit {
 
   searchString = ''
-  displayedColumns: string[] = ['id', 'name', 'addToCart'];
+  displayedColumns: string[] = ['id', 'itemname','quantity', 'addToCart'];
   dataSource: MatTableDataSource<ItemModel>;
   items:ItemModel[] = []
 

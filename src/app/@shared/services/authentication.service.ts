@@ -80,12 +80,12 @@ export class AuthenticationService
     public checkLogin()
     {
         this.isUserLoggedIn = true
-        // console.log("Checking login: "+this.isUserLoggedIn);
-        // if(this.isUserLoggedIn==false)
-        // {
-        //     console.log("Redirecting")
-        //     this.router.navigate(['/login'])
-        // }
+        console.log("Checking login: "+this.isUserLoggedIn);
+        if(!this.isUserLoggedIn)
+        {
+            console.log("Redirecting")
+            this.router.navigate(['/login'])
+        }
     }
 
 
