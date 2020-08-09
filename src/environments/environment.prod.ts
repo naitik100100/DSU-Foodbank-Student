@@ -13,7 +13,7 @@ export const environment = {
   serverUrl: 'https://api.chucknorris.io',
   supplierUrl: 'https://tcxi8qf38d.execute-api.us-east-1.amazonaws.com/dev/api/',
   staffUrl:'https://ststoxv3xd.execute-api.us-east-1.amazonaws.com/dev/api/',
-  studentUrl: 'https://dsu-foodbank-student.azurewebsites.net/api/',
+  studentUrl: 'https://dsufoodbankstudent.azurewebsites.net/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US']
 };
