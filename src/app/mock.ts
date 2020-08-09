@@ -50,7 +50,7 @@ export let Orders: OrderModel[] = [
         id: 1,
         orderedDate: '11-11-2020',
         pickUpDate: '12-11-2020',
-        status: 'ready',
+        orderstatus: 'ready',
         deliveredDate: null,
         details: [
             {
@@ -70,7 +70,7 @@ export let Orders: OrderModel[] = [
         id: 2,
         orderedDate: '1-1-2020',
         pickUpDate: '2-1-2020',
-        status: 'placed',
+        orderstatus: 'placed',
         deliveredDate: null,
         details: [
             {

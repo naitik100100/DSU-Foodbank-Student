@@ -111,7 +111,7 @@ export class CartComponent implements OnInit {
         orderedDate: currentDate,
         pickUpDate: formattedPickupDate,
         deliveredDate: "",
-        status: "placed",
+        orderstatus: "placed",
         details: this.cartItems,
       };
       // update staff api endpoint for new order
