@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { CoreModule } from '@core';
 import { SharedModule } from '@shared';
@@ -27,6 +28,7 @@ import { OrdersModule } from './orders/orders.module';
     MaterialModule,
     CoreModule,
     SharedModule,
+    NgxLoadingModule.forRoot({}),
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [

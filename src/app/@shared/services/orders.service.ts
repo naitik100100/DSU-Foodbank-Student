@@ -30,7 +30,7 @@ export class OrdersService {
     return environment.supplierUrl;
   }
 
-  placeOrder(orderId): Observable<any> {
+  placeOrder(orderId: number): Observable<any> {
     let body = {
       bannerid: localStorage.getItem("bannerId"),
       orderid: orderId,
@@ -42,7 +42,7 @@ export class OrdersService {
   getNewOrder() {
     return this.httpClient.get(`${this.getStaffUrl()}orders`);
   }
-  
+
   updateStaff(body: any) {
     return this.httpClient.post(`${this.getStaffUrl()}orders`, body);
   }
@@ -58,6 +58,14 @@ export class OrdersService {
 
   updateSupplierQuantities(items: ItemModel[]) {
     return this.httpClient.post(`${this.getSupplierUrl()}updatequantity`, {items});
+  }
+
+  revertStaffOrder(orderId: number) {
+    return this.httpClient.delete(`${this.getStaffUrl()}orders/${orderId}`);
+  }
+
+  revertQuantities(items: ItemModel[]) {
+    return this.httpClient.post(`${this.getSupplierUrl()}revertupdate`, {items});
   }
 
   checkOrderIsPlaced() {}

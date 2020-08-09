@@ -197,9 +197,9 @@ server.get("/api/orders/:bannerid", (req, res) => {
     })
     .then((result) => {
       if (result.length === 0) {
-        res.status(404).send({
+        res.status(200).send({
           success: false,
-          message: "User Not Found.!!",
+          message: "No orders found for the user!",
         });
       } else {
         res.status(200).send({

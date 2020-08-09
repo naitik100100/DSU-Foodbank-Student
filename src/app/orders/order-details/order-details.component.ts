@@ -50,27 +50,28 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   {
     console.log('Fetching Order Details of: '+this.id)
     this.ordersService.getOrder(this.id).subscribe((data:any)=>{
-      this.order = data.Item
-      this.fetchOrderItems()
+      console.log(data);
+      this.order = data.Item;
+      this.orderItems = data.Item.details;
+      this.initializeDataGrid();
     })
 
   }
 
-  fetchOrderItems()
-  {
-    this.order.details.forEach(orderDetail=>{
-      this.itemsService.getItem(orderDetail.itemId).subscribe((data:any)=>{
-        console.log(data)
-        this.orderItems.push(data.Item)
-        this.initializeDataGrid()
-      })
-    })
+  // fetchOrderItems()
+  // {
+  //   this.order.details.forEach(orderDetail=>{
+  //     this.itemsService.getItem(orderDetail.id).subscribe((data:any)=>{
+  //       this.orderItems.push(data.Item)
+  //       this.initializeDataGrid();
+  //     });
+  //   });
 
-  }
+  // }
 
   initializeDataGrid()
   {
-    this.dataSource = new MatTableDataSource<ItemModel>(this.orderItems)
+    this.dataSource = new MatTableDataSource<ItemModel>(this.orderItems);
   }
   ngOnDestroy() {}
 

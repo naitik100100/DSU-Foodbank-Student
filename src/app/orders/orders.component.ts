@@ -7,6 +7,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/@shared/services/authentication.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@app/@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
 
 @Component({
   selector: 'app-orders',
@@ -26,7 +28,8 @@ export class OrdersComponent implements OnInit {
     public itemsService: ItemsService,
     public ordersService: OrdersService,
     public authService: AuthenticationService,
-    public router: Router
+    public router: Router,
+    public matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -42,13 +45,21 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getAllOrders().subscribe((data:any)=>{
       if(data.success)
       {
-        data.result.forEach((order:any)=>{
-          this.ordersService.getOrder(order.orderid).subscribe((data:any)=>
+        data.result.forEach((order: any) => {
+          console.log(order.orderid)
+          this.ordersService.getOrder(order.orderid).subscribe((orderDetails :any) =>
           {
-            this.orders.push(data.Item)
-            this.initializeDataGrid()
+            this.orders.push(orderDetails.Item);
+            this.initializeDataGrid();
           })
         })
+      } else {
+        this.matDialog.open(MatDialogWrapperComponent, {
+          data: {
+            header: `No Orders!`,
+            content: data.message,
+          },
+        });
       }
     })
   }

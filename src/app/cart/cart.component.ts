@@ -16,6 +16,8 @@ import { MatDialogWrapperComponent } from "@app/@shared/mat-dialog-wrapper/mat-d
   styleUrls: ["./cart.component.scss"],
 })
 export class CartComponent implements OnInit {
+  loading = false;
+
   constructor(
     public cartService: CartService,
     public authService: AuthenticationService,
@@ -52,6 +54,7 @@ export class CartComponent implements OnInit {
   }
 
   placeOrder() {
+    this.loading = true;
     let newOrderId: number;
 
     // Checking whether enough quantities are available or not ??
@@ -90,19 +93,56 @@ export class CartComponent implements OnInit {
                           content: `${res4.message}. Order ID: ${res4.order.id}`,
                         },
                       });
+                      this.cartItems = [];
+                      this.dataSource.data = this.cartItems;
+                      this.loading = false;
                     } else {
                       // error updating student order
-                      // revert staff and supplier ??
+                      this.orderService.revertStaffOrder(newOrderId).subscribe((res5: any) => {
+                        if (JSON.stringify(res5)) {
+                          this.orderService.revertQuantities(this.cartItems).subscribe((res6: any) => {
+                            if (res6.success) {
+                              this.loading = false;
+                              this.matDialog.open(MatDialogWrapperComponent, {
+                                data: {
+                                  header: `Error - Can't place the order!`,
+                                  content: `Transaction rollbacked due to the internal error in Staff API endpoint`,
+                                },
+                              });
+                            } else {
+                              this.loading = false;
+                              // rollback failed - inconsistent state
+                            }
+                          });
+                        } else {
+                          this.loading = false;
+                          // rollback failed - inconsistent state
+                        }
+                      });
                     }
                   });
                 } else {
                   // error modifying quantities
-                  // revert staff order ??
+                  this.orderService.revertStaffOrder(newOrderId).subscribe((res5: any) => {
+                    if (JSON.stringify(res5)) {
+                      this.loading = false;
+                      this.matDialog.open(MatDialogWrapperComponent, {
+                        data: {
+                          header: `Error - Can't place the order!`,
+                          content: `Transaction rollbacked due to the internal error in Supplier API endpoint`,
+                        },
+                      });
+                    } else {
+                      this.loading = false;
+                      // rollback failed - inconsistent state
+                    }
+                  });
                 }
               });
             } else {
               // Error unable to place an order
               // Staff order can't be placed
+              this.loading = false;
               this.matDialog.open(MatDialogWrapperComponent, {
                 data: {
                   header: `Error - Can't place the order!`,
@@ -114,6 +154,7 @@ export class CartComponent implements OnInit {
         });
       } else {
         // show message with list of items that are not have enough qunatities
+        this.loading = false;
         this.matDialog.open(MatDialogWrapperComponent, {
           data: {
             header: `Error - Can't place the order!`,

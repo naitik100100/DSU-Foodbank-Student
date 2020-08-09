@@ -7,19 +7,19 @@
         <div class="column details">
             <div class="row detail">
                 <div class="title">Order Id: </div>
-                <div class="data">{{order.id}}</div>
+                <div class="data">{{order?.id}}</div>
             </div>
             <div class="row detail">
                 <div class="title">Order Date: </div>
-                <div class="data">{{order.orderedDate}}</div>
+                <div class="data">{{order?.orderedDate}}</div>
             </div>
             <div class="row detail">
                 <div class="title">Pickup Date: </div>
-                <div class="data">{{order.pickUpDate}}</div>
+                <div class="data">{{order?.pickUpDate}}</div>
             </div>
             <div class="row detail">
                 <div class="title">Status: </div>
-                <div class="data">{{order.orderstatus | uppercase}}</div>
+                <div class="data">{{order?.orderstatus | uppercase}}</div>
             </div>
         </div>
         <div class="column order-items-table w-50">
@@ -27,14 +27,14 @@
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Name</th>
                   <td mat-cell *matCellDef="let item">
-                    {{ item.itemname }}
+                    {{ item?.itemname }}
                   </td>
                 </ng-container>
         
                 <ng-container matColumnDef="quantity">
                   <th mat-header-cell *matHeaderCellDef>Quantity</th>
                   <td mat-cell *matCellDef="let item">
-                      {{ item.quantity }}
+                      {{ item?.quantity }}
                   </td>
                 </ng-container>
         
