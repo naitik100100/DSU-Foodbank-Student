@@ -129,6 +129,7 @@ export class CartComponent implements OnInit {
                     },
                   });
                   this.cartItems = [];
+                  this.cartService.clearCart();
                   this.dataSource.data = this.cartItems;
                   this.loading = false;
                 } else {

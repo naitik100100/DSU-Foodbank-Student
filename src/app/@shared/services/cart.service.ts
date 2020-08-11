@@ -64,4 +64,9 @@ export class CartService
         return this.itemsInCart;
     }
 
+    public clearCart()
+    {
+        this.itemsInCart = []
+    }
+
 }

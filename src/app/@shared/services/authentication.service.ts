@@ -76,13 +76,23 @@ export class AuthenticationService
 
     public checkLogin()
     {
-        this.isUserLoggedIn = true
-        if(!this.isUserLoggedIn)
+        if(localStorage.getItem('bannerId')==null)
         {
             this.router.navigate(['/login'])
+            this.isUserLoggedIn = false;
+        }
+        else
+        {
+            this.isUserLoggedIn = true;
         }
     }
 
+    public logout()
+    {
+        this.isUserLoggedIn= false;
+        this.router.navigate(['/login'])
+        localStorage.removeItem('bannerId')
+    }
 
     getUrl():string
     {
